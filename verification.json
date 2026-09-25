@@ -1,0 +1,8 @@
+{
+  "explicit_script_references": "PASS",
+  "selected_new_engine_calls_present_in_bo1_scripts": "PASS",
+  "installer_copy_backup_previous_mod_preservation": "PASS (isolated fixture)",
+  "runtime_gameplay": "NOT RUN",
+  "branding": "PASS; title, welcome, scrolling banner, installer and Mods folder renamed for 1.0",
+  "preservation": "PASS; only explicit branding/comment changes in game scripts; gameplay unchanged"
+}

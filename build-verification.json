@@ -1,0 +1,9 @@
+{
+  "format": "T5 scripts-only fastfile",
+  "prior_layout_reproduction": "PASS",
+  "all_scripts_roundtrip": "PASS",
+  "animation_tree_plaintext_roundtrip": "PASS",
+  "runtime_test": "NOT RUN",
+  "bytes": 64052,
+  "sha256": "ee12834cf9736ac92707277a263ddcca7bcf4b0922c28e4d8d1db5474ffcd074"
+}

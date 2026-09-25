@@ -1,0 +1,602 @@
+[
+  {
+    "id": "scream",
+    "name": "Orgasm",
+    "description": "MP fire screams; repeats until death",
+    "number": 1
+  },
+  {
+    "id": "blur",
+    "name": "Dropped My Glasses",
+    "description": "Blurry vision until death.",
+    "number": 2
+  },
+  {
+    "id": "fire",
+    "name": "On Fire",
+    "description": "5 burn damage per second",
+    "number": 3
+  },
+  {
+    "id": "uav",
+    "name": "Infinite UAV",
+    "description": "Continuous enemy radar.",
+    "number": 4
+  },
+  {
+    "id": "snackbar",
+    "name": "Snackbar",
+    "description": "Explode in 30 seconds",
+    "number": 5
+  },
+  {
+    "id": "defaultweapon",
+    "name": "Default Weapon",
+    "description": "Equip the default weapon.",
+    "number": 6
+  },
+  {
+    "id": "killstreak",
+    "name": "Random Killstreak",
+    "description": "Receive a random killstreak.",
+    "number": 7
+  },
+  {
+    "id": "rubber",
+    "name": "Bullets Do No Damage",
+    "description": "Your bullet damage is zero",
+    "number": 8
+  },
+  {
+    "id": "ricochet",
+    "name": "Ricochet Rounds",
+    "description": "Your bullet damage hits you instead",
+    "number": 9
+  },
+  {
+    "id": "slow",
+    "name": "Cement Shoes",
+    "description": "50% movement speed.",
+    "number": 10
+  },
+  {
+    "id": "fast",
+    "name": "Super Speed",
+    "description": "150% movement speed.",
+    "number": 11
+  },
+  {
+    "id": "falls",
+    "name": "Tungsten Ballsack",
+    "description": "Double fall damage",
+    "number": 12
+  },
+  {
+    "id": "sounds",
+    "name": "Kill Sound Roulette",
+    "description": "Random local sound on every enemy kill",
+    "number": 13
+  },
+  {
+    "id": "strength",
+    "name": "Strength Bonus",
+    "description": "+50% direct weapon damage",
+    "number": 14
+  },
+  {
+    "id": "lava",
+    "name": "The Floor Is Lava",
+    "description": "Starts in 5s; 10 damage per second on ground",
+    "number": 15
+  },
+  {
+    "id": "headshots",
+    "name": "Headshots Only",
+    "description": "Your bullets only hurt on headshots",
+    "number": 16
+  },
+  {
+    "id": "aimbot",
+    "name": "10 Second Aimbot",
+    "description": "Hold ADS: aims at a visible enemy; fire manually",
+    "number": 17
+  },
+  {
+    "id": "explosive",
+    "name": "Explosive Rounds",
+    "description": "Every fifth gunshot explodes",
+    "number": 18
+  },
+  {
+    "id": "sniper",
+    "name": "L96A1 + Tomahawk",
+    "description": "L96A1 and tomahawk only.",
+    "number": 19
+  },
+  {
+    "id": "wallhacks",
+    "name": "Wallhacks",
+    "description": "Enemy location markers through walls",
+    "number": 20
+  },
+  {
+    "id": "noclip",
+    "name": "No Collision",
+    "description": "Hold USE to fly through walls; melee returns you to start",
+    "number": 21
+  },
+  {
+    "id": "shake",
+    "name": "Camera Shake",
+    "description": "Constant camera shake.",
+    "number": 22
+  },
+  {
+    "id": "knife",
+    "name": "Knife Only",
+    "description": "20 seconds of melee-only damage and empty guns",
+    "number": 23
+  },
+  {
+    "id": "grenades",
+    "name": "Unlimited Nades",
+    "description": "Refills equipped frag/semtex, claymore or C4",
+    "number": 24
+  },
+  {
+    "id": "armor",
+    "name": "Thick Skin",
+    "description": "Half incoming damage",
+    "number": 25
+  },
+  {
+    "id": "vampire",
+    "name": "Vampire",
+    "description": "Enemy kills heal 30 HP",
+    "number": 26
+  },
+  {
+    "id": "fragile",
+    "name": "Glass Cannon",
+    "description": "1 HP, double direct weapon damage",
+    "number": 27
+  },
+  {
+    "id": "tunnel",
+    "name": "Tunnel Vision",
+    "description": "A heavily darkened view.",
+    "number": 28
+  },
+  {
+    "id": "rainbow",
+    "name": "Rainbow Flash Rounds",
+    "description": "Full-screen rainbow flashes with each gunshot.",
+    "number": 29
+  },
+  {
+    "id": "gravitykick",
+    "name": "Gravity Kick on Kill",
+    "description": "Enemy kills launch YOU upward",
+    "number": 30
+  },
+  {
+    "id": "disco",
+    "name": "Disco Tint",
+    "description": "A cycling rainbow tint covers your view.",
+    "number": 31
+  },
+  {
+    "id": "crawl",
+    "name": "Crawl Pace",
+    "description": "25% movement speed.",
+    "number": 32
+  },
+  {
+    "id": "drunk",
+    "name": "Drunk Sway",
+    "description": "Your camera sways.",
+    "number": 33
+  },
+  {
+    "id": "noisy",
+    "name": "Everyone Hears You",
+    "description": "Loud positional beeps give you away.",
+    "number": 34
+  },
+  {
+    "id": "teleport",
+    "name": "Random Teleport",
+    "description": "YOU move to a free map spawn after 3 seconds",
+    "number": 35
+  },
+  {
+    "id": "mirror",
+    "name": "Turnaround",
+    "description": "Your view turns 180 degrees every 6 seconds",
+    "number": 36
+  },
+  {
+    "id": "cartoon",
+    "name": "Cartoon Bounce",
+    "description": "You bounce automatically.",
+    "number": 37
+  },
+  {
+    "id": "dance",
+    "name": "Dance Spin",
+    "description": "Your camera spins for 3 seconds.",
+    "number": 38
+  },
+  {
+    "id": "raybow",
+    "name": "Raybow",
+    "description": "Equip an explosive crossbow.",
+    "number": 39
+  },
+  {
+    "id": "bishop",
+    "name": "Bishop",
+    "description": "A Death Machine bodyguard follows you.",
+    "number": 40
+  },
+  {
+    "id": "juggernaut",
+    "name": "Juggernaut",
+    "description": "300 HP, 70% speed.",
+    "number": 41
+  },
+  {
+    "id": "speed_demon",
+    "name": "Speed Demon",
+    "description": "Double movement speed.",
+    "number": 42
+  },
+  {
+    "id": "snail",
+    "name": "Snail Mail",
+    "description": "15% movement speed.",
+    "number": 43
+  },
+  {
+    "id": "regenerator",
+    "name": "Regenerator",
+    "description": "Heal 8 HP every second.",
+    "number": 44
+  },
+  {
+    "id": "poison",
+    "name": "Poison Ivy",
+    "description": "Lose 3 HP every second.",
+    "number": 45
+  },
+  {
+    "id": "bloodsucker",
+    "name": "Bloodsucker",
+    "description": "Weapon hits heal you for 20% of damage.",
+    "number": 46
+  },
+  {
+    "id": "thorns",
+    "name": "Thorns",
+    "description": "Return 25% of incoming enemy weapon damage.",
+    "number": 47
+  },
+  {
+    "id": "damage_dice",
+    "name": "Damage Dice",
+    "description": "Every weapon hit does 25%-200% damage.",
+    "number": 48
+  },
+  {
+    "id": "critical",
+    "name": "Critical Mass",
+    "description": "One in five weapon hits does triple damage.",
+    "number": 49
+  },
+  {
+    "id": "first_shield",
+    "name": "First One Is Free",
+    "description": "Your first damaging hit is absorbed.",
+    "number": 50
+  },
+  {
+    "id": "second_wind",
+    "name": "Second Wind",
+    "description": "Survive one fatal hit at 1 HP.",
+    "number": 51
+  },
+  {
+    "id": "mercy",
+    "name": "Mercy Rule",
+    "description": "Your weapon hits cannot finish an enemy.",
+    "number": 52
+  },
+  {
+    "id": "executioner",
+    "name": "Executioner",
+    "description": "Weapon hits finish enemies below 30 HP.",
+    "number": 53
+  },
+  {
+    "id": "medic_bullets",
+    "name": "Medical Malpractice",
+    "description": "Your bullets heal enemies instead of hurting them.",
+    "number": 54
+  },
+  {
+    "id": "blood_donor",
+    "name": "Blood Donor",
+    "description": "Enemies that hit you regain 15 HP.",
+    "number": 55
+  },
+  {
+    "id": "heavy_caliber",
+    "name": "Heavy Caliber",
+    "description": "Double bullet damage, 70% speed.",
+    "number": 56
+  },
+  {
+    "id": "featherweight",
+    "name": "Featherweight",
+    "description": "170% speed, take 50% more damage.",
+    "number": 57
+  },
+  {
+    "id": "moonboots",
+    "name": "Moon Boots",
+    "description": "Your jumps receive an extra upward boost.",
+    "number": 58
+  },
+  {
+    "id": "anchor",
+    "name": "Anchor Management",
+    "description": "You stop moving for 2 seconds out of every 8.",
+    "number": 59
+  },
+  {
+    "id": "blink",
+    "name": "Blink And You Miss It",
+    "description": "Teleport to a free map spawn every 15 seconds.",
+    "number": 60
+  },
+  {
+    "id": "kill_teleport",
+    "name": "Hit And Run",
+    "description": "An enemy kill triggers a teleport.",
+    "number": 61
+  },
+  {
+    "id": "rewind",
+    "name": "Return To Sender",
+    "description": "Return to your roll starting position every 15 seconds.",
+    "number": 62
+  },
+  {
+    "id": "supply_fairy",
+    "name": "Supply Fairy",
+    "description": "Enemy kills award a random killstreak.",
+    "number": 63
+  },
+  {
+    "id": "roulette_gun",
+    "name": "Weapon Roulette",
+    "description": "Receive a different primary weapon every 15 seconds.",
+    "number": 64
+  },
+  {
+    "id": "pistol_party",
+    "name": "Pistol Party",
+    "description": "Python revolver only.",
+    "number": 65
+  },
+  {
+    "id": "rocketman",
+    "name": "Rocket Man",
+    "description": "RPG only, with periodic ammo refills.",
+    "number": 66
+  },
+  {
+    "id": "silent_runner",
+    "name": "Silent Runner",
+    "description": "125% speed and suppressed MP5K.",
+    "number": 67
+  },
+  {
+    "id": "boomstick",
+    "name": "Boomstick",
+    "description": "Olympia only, with double direct damage.",
+    "number": 68
+  },
+  {
+    "id": "deathmachine",
+    "name": "Death Machine",
+    "description": "Equip the minigun with endless ammunition.",
+    "number": 69
+  },
+  {
+    "id": "grim_reaper",
+    "name": "Grim Reaper",
+    "description": "Equip the M202 with ammo refills.",
+    "number": 70
+  },
+  {
+    "id": "crossbow_club",
+    "name": "Crossbow Club",
+    "description": "Explosive crossbow only.",
+    "number": 71
+  },
+  {
+    "id": "ballistic",
+    "name": "Ballistic Ballet",
+    "description": "Ballistic knife, 150% speed.",
+    "number": 72
+  },
+  {
+    "id": "kalashnikov",
+    "name": "Kalashnikov King",
+    "description": "AK-47 with 25% bonus damage.",
+    "number": 73
+  },
+  {
+    "id": "rambo",
+    "name": "Rambo",
+    "description": "M60, 200 HP, 85% speed.",
+    "number": 74
+  },
+  {
+    "id": "scavenger",
+    "name": "Scavenger King",
+    "description": "Enemy kills refill your weapons.",
+    "number": 75
+  },
+  {
+    "id": "dry_mag",
+    "name": "Dry County",
+    "description": "No reserve ammunition.",
+    "number": 76
+  },
+  {
+    "id": "bottomless",
+    "name": "Bottomless Pockets",
+    "description": "All carried weapons refill every half-second.",
+    "number": 77
+  },
+  {
+    "id": "one_bullet",
+    "name": "One Bullet Wonder",
+    "description": "Exactly one bullet in your current gun after each shot.",
+    "number": 78
+  },
+  {
+    "id": "blood_ammo",
+    "name": "Blood Ammunition",
+    "description": "Each shot costs 2 HP.",
+    "number": 79
+  },
+  {
+    "id": "rocket_boots",
+    "name": "Rocket Boots",
+    "description": "USE launches you upward; 3-second cooldown.",
+    "number": 80
+  },
+  {
+    "id": "recoil_rocket",
+    "name": "Recoil Rocket",
+    "description": "Shots push you backward.",
+    "number": 81
+  },
+  {
+    "id": "punch_rounds",
+    "name": "Punch Rounds",
+    "description": "Bullet hits launch enemies away.",
+    "number": 82
+  },
+  {
+    "id": "sky_rounds",
+    "name": "Sky Rounds",
+    "description": "Bullet hits toss enemies into the air.",
+    "number": 83
+  },
+  {
+    "id": "frost_rounds",
+    "name": "Frost Rounds",
+    "description": "Bullet hits slow an enemy for 0.75 seconds.",
+    "number": 84
+  },
+  {
+    "id": "ammo_thief",
+    "name": "Ammo Thief",
+    "description": "Bullet hits remove five rounds from the victim's clip.",
+    "number": 85
+  },
+  {
+    "id": "rattle_rounds",
+    "name": "Rattle Rounds",
+    "description": "Bullet hits shake the victim's camera.",
+    "number": 86
+  },
+  {
+    "id": "coward",
+    "name": "Fight Or Flight",
+    "description": "Double speed whenever an enemy is within 450 units.",
+    "number": 87
+  },
+  {
+    "id": "berserker",
+    "name": "Berserker",
+    "description": "Triple direct damage below 30 HP.",
+    "number": 88
+  },
+  {
+    "id": "fireworks",
+    "name": "Victory Fireworks",
+    "description": "Enemy kills create a harmless explosion effect.",
+    "number": 89
+  },
+  {
+    "id": "confetti",
+    "name": "Confetti Cannon",
+    "description": "Enemy kills splash your screen with color.",
+    "number": 90
+  },
+  {
+    "id": "hulk",
+    "name": "Hulk Smash",
+    "description": "Crouch + USE launches you; take no fall damage.",
+    "number": 91
+  },
+  {
+    "id": "cinema",
+    "name": "Cinema Club",
+    "description": "Letterboxed vision for your whole life.",
+    "number": 92
+  },
+  {
+    "id": "green",
+    "name": "Green Machine",
+    "description": "Green-tinted vision and 125% speed.",
+    "number": 93
+  },
+  {
+    "id": "red_alert",
+    "name": "Red Alert",
+    "description": "Your screen pulses red, faster at low health.",
+    "number": 94
+  },
+  {
+    "id": "disco_aim",
+    "name": "Disco Aim",
+    "description": "Every shot rotates your view 25 degrees.",
+    "number": 95
+  },
+  {
+    "id": "gravity_well",
+    "name": "Gravity Well",
+    "description": "Pull nearby enemies toward you.",
+    "number": 96
+  },
+  {
+    "id": "repulsor",
+    "name": "Repulsor",
+    "description": "Push nearby enemies away.",
+    "number": 97
+  },
+  {
+    "id": "healer",
+    "name": "Healing Aura",
+    "description": "Heal yourself and nearby teammates.",
+    "number": 98
+  },
+  {
+    "id": "plague",
+    "name": "Plague Bearer",
+    "description": "Nearby visible enemies take 3 damage per second.",
+    "number": 99
+  },
+  {
+    "id": "jackpot",
+    "name": "Jackpot",
+    "description": "200 HP, 150% speed, infinite ammo, life-steal.",
+    "number": 100
+  }
+]
