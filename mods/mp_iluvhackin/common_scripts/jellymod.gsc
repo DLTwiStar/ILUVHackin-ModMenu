@@ -6,13 +6,8 @@
 //
 //	Original: Wii BO1 "Nity's Mod Menu V.1 Pre-Release" (common_scripts/jellymod.gsc)
 //	PC controls:  crouch + [melee] opens.  [attack] up, [ads] down, [use] select, [melee] back.
-//	Extra admins: launch with  +set jm_admins "Name1;Name2"   (host is always an admin)
 //
 //	Private / unranked lobbies only. Stat writes are permanent on the local profile.
-
-main()
-{
-}
 
 init()
 {
@@ -23,7 +18,6 @@ init()
     common_scripts\ng_vip::init();
     common_scripts\ng_visuals::init();
     common_scripts\ng_admin::init();
-	level.allSelect = false;
 	common_scripts\nitys_rtd::init();
     common_scripts\ng_nuketown::init();
     common_scripts\ng_bounty::init();
@@ -35,10 +29,6 @@ init()
 	level._effect[ "jm_expbullet" ] = loadfx( "explosions/fx_exp_aerial" );
 	if ( getDvar( "mapname" ) == "mp_nuked" )
 		level._effect[ "jm_nuke" ] = loadfx( "maps/mp_maps/fx_mp_nuked_nuclear_explosion" );
-
-	if ( getDvar( "jm_admins" ) == "" )
-		setDvar( "jm_admins", "" );
-	level.jm_admins = strTok( getDvar( "jm_admins" ), ";" );
 
 	level thread onPlayerConnect();
 }
@@ -106,23 +96,7 @@ OnPlayerSpawned()
 	}
 }
 
-monitors()
-{
-	self endon ( "disconnect" );
-	self endon ( "death" );
-	wait 2;
-	self thread monitor_freeze();
-	self thread monitor_unfreeze();
-	self thread monitor_kick();
-	self thread monitor_kill();
-	self thread monitor_derank();
-	self thread monitor_derank_nokick();
-	self thread monitorStatus();
-	self thread monitor_edit_stats();
-	self thread monitor_showrules();
-}
-
-// Host, plus any name listed in the jm_admins dvar.
+// Host or Cohost role.
 jm_isAdmin()
 {
     return self common_scripts\ng_access::rank()>=3;
@@ -147,11 +121,9 @@ playerVars()
 	self.nukeBulletsTog = false;
 	self.togtimescale = 0;
 	self.waxVision = 0;
-	self.canSubmit = true;
 	self.varStatus = "Normal";
 	self.unlockPro = false;
 	self.togThird = false;
-	self.freezeAll = false;
 	self.menuOpen = 0;
 	self.forgeOn = false;
 	self.noclipOn = false;
@@ -418,38 +390,6 @@ runFunc( input )
 			self thread closeModMenu();
 			self thread teleport();
 			break;
-		case "UFO Mode":
-			self thread closeModMenu();
-			self thread ufo();
-			break;
-		case "Noclip":
-			if(self.noclipOn == false)
-			{
-				self.noclipOn = true;
-				self thread closeModMenu();
-				self thread noclip();
-			}
-			else
-			{
-				self jm_stopNoclip();
-				self iPrintlnBold( "^7Noclip ^1OFF" );
-			}
-			break;
-		case "Forge":
-			if(self.forgeOn == false)
-			{
-				self.forgeOn = true;
-				self iPrintlnBold( "^7Forge ^1ON ^7- hold [{+speed_throw}] to drag objects" );
-				self thread closeModMenu();
-				self thread forge();
-			}
-			else
-			{
-				self.forgeOn = false;
-				self notify( "stop_forge" );
-				self iPrintlnBold( "^7Forge ^1OFF" );
-			}
-			break;
 		case "Stats":
 			self changeMenu( 3, "^7Stat Editor", "Legit|Modded|Submit" );
 			break;
@@ -466,10 +406,7 @@ runFunc( input )
 			self.timeplayed = 863913600;
 			break;
 		case "Admin Menu":
-			if( true )
-				self changeMenu( 4, "^7Admin ^2Menu", "Player Menu|Change Map|Wager Modes|End Game Options|Admin Misc|Game Status|Freeze All|Teleport All|Close Menu" );
-			else
-				self iPrintlnBold( "^7Only ^1"+level.hostPlayer+" ^7Can Acces Admin Menu" );
+			self changeMenu( 4, "^7Admin ^2Menu", "Player Menu|Change Map|Wager Modes|End Game Options|Admin Misc|Game Status|Freeze All|Teleport All|Close Menu" );
 			break;
         case "Wii Graphics":
             self common_scripts\ng_visuals::wii();
@@ -544,15 +481,6 @@ runFunc( input )
 		case "Admin Misc":
 			self changeMenu( 11, "^7Admin Misc ^2Menu", "Shoot Care Packages|Explosive Bullets|Timescale|Spawn AI|Close Menu" );
 			break;
-		case "Teleport All":
-			for(i = 0; i < level.players.size; i++)
-			{
-				level.players[i] setOrigin(self.origin);
-				level.players[i] sayall( "^3I was teleported");
-				wait 0.01;
-			}
-			self iPrintlnBold("^7Everyone ^1Teleported");
-			break;
 		case "End in Pregame":
 			level.rankedMatch = false;
 			self iPrintlnBold( "^7Game ^1Ending" );
@@ -560,7 +488,6 @@ runFunc( input )
 			thread maps\mp\gametypes\_globallogic::forceEnd( false );
 			break;
 		case "Spawn AI":
-			player = GetHostPlayer();
 			team = self.pers[ "team" ];
 			wait( 0.25 );
 			bot = AddTestClient();
@@ -592,21 +519,6 @@ runFunc( input )
 				self.nukeBulletsTog = false;
 			}
 			break;
-		case "Freeze All":
-			if (self.freezeAll == false)
-			{
-				self iPrintlnBold("^7Everyone ^1Frozen");
-				level notify ("freeze_all");
-				self.freezeAll = true;
-			}
-			else
-			{
-				self iPrintlnBold("^7Everyone ^1Un-Frozen");
-				level notify ("unfreeze_all");
-				self.freezeAll = false;
-			}
-			wait 1;
-			break;
 		case "Timescale":
 			self.togtimescale++;
 			if (self.togtimescale > 3)
@@ -627,19 +539,6 @@ runFunc( input )
 				setDvar("Timescale", 1 );
 				self iPrintlnBold("^7Timescale set to ^1Normal");
 			}
-			break;
-		case "Player Menu":
-		case "Back to Player Menu":
-			self iPrintlnBold("^7Loading ^1Player Menu");
-			whoinlobby = "Everyone|";
-			for(i = 0; i < level.players.size; i++)
-			{
-				whoinlobby += level.players[i].name;
-				whoinlobby += "|";
-				wait 0.001;
-			}
-			whoinlobby += "Close Menu";
-			self changeMenu( 5, "^7Player ^2Menu", whoinlobby );
 			break;
 		case "Killstreaks":
 			self changeMenu( 9, "^7Killstreaks ^2Menu", "radar|mortar|radardirection|m220_tow|rcbomb|supplydrop|dogs|Close Menu" );
@@ -689,37 +588,6 @@ runFunc( input )
 			break;
 		case "Close Menu":
 			self thread closeModMenu();
-			break;
-		case "Kick":
-			level notify ("kick_someone");
-			self iPrintlnBold( "^7"+level.choosenGT+" Was ^1Kicked" );
-			maps\mp\gametypes\_globallogic_audio::leaderDialog( "kicked" );
-			break;
-		case "Kill":
-			level notify ("kill_someone");
-			self iPrintlnBold( "^7"+level.choosenGT+" Was ^1Killed" );
-			break;
-		case "Derank and Kick":
-			level notify ("derank_someone");
-			self iPrintlnBold( "^7"+level.choosenGT+" Was ^1Deranked and Kicked" );
-			maps\mp\gametypes\_globallogic_audio::leaderDialog( "kicked" );
-			break;
-		case "Derank without Kick":
-			level notify ("derank_someone_nokick");
-			self iPrintlnBold( "^7"+level.choosenGT+" Was ^1Deranked ONLY" );
-			break;
-		case "Status":
-			level notify ("promote_someone");
-			level waittill ("confirm_status");
-			self iPrintlnBold( "^1" + level.choosenGT + " ^7Was Changed to ^1" + level.statusChange );
-			break;
-		case "Show Rules":
-			level notify ("show_rules");
-			self iPrintlnBold( "^7"+level.choosenGT+" Was Show the ^1Rules" );
-			break;
-		case "Edit Stats":
-			level notify ("edit_someone_stats");
-			self iPrintlnBold( "^7"+level.choosenGT+" Stats were ^1Edited" );
 			break;
 		case "Fast Restart":
 			level notify ("fast_restart");
@@ -796,12 +664,6 @@ jm_getStat( dataName )
 statEditorApply()
 {
 	self endon( "disconnect" );
-
-	if( !self.canSubmit )
-	{
-		self iPrintlnBold( "^1Stat editing is disabled for you" );
-		return;
-	}
 
 	self jm_setStat( "kills", self.killstat );
 	self jm_setStat( "deaths", self.deathstat );
@@ -894,191 +756,6 @@ menuInstructions()
 
 //----------------------Monitor Player Menu -----------------------------------
 
-monitor_kick()
-{
-	self endon ( "disconnect" );
-	self endon ( "death" );
-	for (;;)
-	{
-		level waittill ("kick_someone");
-		if(level.allSelect == true)
-			kick (self getEntityNumber());
-		else
-		{
-			if(self.name == level.choosenGT)
-				kick (self getEntityNumber());
-		}
-	}
-}
-
-monitor_kill()
-{
-	self endon ( "disconnect" );
-	self endon ( "death" );
-	for (;;)
-	{
-		level waittill ("kill_someone");
-		if(level.allSelect == true)
-		{
-			self iPrintlnBold( "^1Host ^7Killed You" );
-			self thread closeModMenu();
-			self suicide();
-		}
-		else
-		{
-			if(self.name == level.choosenGT)
-			{
-				self iPrintlnBold( "^1Host ^7Killed You" );
-				self thread closeModMenu();
-				self suicide();
-			}
-		}
-	}
-}
-
-monitor_derank()
-{
-	self endon ( "disconnect" );
-	self endon ( "death" );
-	for (;;)
-	{
-		level waittill ("derank_someone");
-		if(level.allSelect == true)
-		{
-			self derankPlayer();
-			wait 1;
-			kick (self getEntityNumber());
-		}
-		else
-		{
-			if(self.name == level.choosenGT)
-			{
-				self derankPlayer();
-				wait 1;
-				kick (self getEntityNumber());
-			}
-		}
-	}
-}
-
-monitor_showrules()
-{
-	self endon ( "disconnect" );
-	self endon ( "death" );
-	for (;;)
-	{
-		level waittill ("show_rules");
-		if(level.allSelect == true)
-			self thread rules();
-		else
-		{
-			if(self.name == level.choosenGT)
-				self thread rules();
-		}
-	}
-}
-
-rules()
-{
-	self endon ("disconnect");
-	drules = self createFontString( "default", 2.3 );
-	drules setPoint("CENTER","TOP",0,10);
-	drules.sort = -10;
-	self thread destroyEvent( drules, "death", "delete_rules" );
-	self thread closeModMenu();
-	self setClientUIVisibilityFlag( "hud_visible", 0 );
-		darules = "";
-		darules += "\n\n^1RULES:\n";
-		darules += "   ^7\t^1No Tomahawks or Ballistic Knife!\n";
-		darules += "   ^7\t^1No Screaming!\n";
-		darules += "   ^7\t^1No Asking For Modz!\n";
-		darules += "   ^7\t^1No Being Annoying!\n";
-		darules += "   ^7\t^1No Being Stupid!\n";
-		darules += "^1Any Violation Will Get You Deranked";
-		drules setText(darules);
-		wait 10;
-		self setClientUIVisibilityFlag( "hud_visible", 1 );
-		self notify ("delete_rules");
-}
-
-monitor_derank_nokick()
-{
-	self endon ( "disconnect" );
-	self endon ( "death" );
-	for (;;)
-	{
-		level waittill ("derank_someone_nokick");
-		if(level.allSelect == true)
-		{
-			self thread derankPlayer();
-			self.canSubmit = false;
-		}
-		else
-		{
-			if(self.name == level.choosenGT)
-			{
-				self thread derankPlayer();
-				self.canSubmit = false;
-			}
-		}
-	}
-}
-
-monitor_edit_stats()
-{
-	self endon ( "disconnect" );
-	self endon ( "death" );
-	for (;;)
-	{
-		level waittill ("edit_someone_stats");
-		if(level.allSelect == true)
-		{
-			self iPrintlnBold( "^1Host ^7Hacked You" );
-			self.prestigeToggle = 15;
-			self.killstat = 99999;
-			self.deathstat = 1;
-			self.timeplayed = 863913600;
-			self.unlockPro = true;
-			self thread statEditorApply();
-		}
-		else
-		{
-			if(self.name == level.choosenGT)
-			{
-				self iPrintlnBold( "^1Host ^7Hacked You" );
-				self.prestigeToggle = 15;
-				self.killstat = 99999;
-				self.deathstat = 1;
-				self.timeplayed = 863913600;
-				self.unlockPro = true;
-				self thread statEditorApply();
-			}
-		}
-	}
-}
-monitor_freeze()
-{
-	self endon ( "disconnect" );
-	self endon ( "death" );
-	for (;;)
-	{
-		level waittill ("freeze_all");
-		self freeze_player_controls( true );
-		self sayall( "^3I Was Frozen");
-	}
-}
-
-monitor_unfreeze()
-{
-	self endon ( "disconnect" );
-	self endon ( "death" );
-	for (;;)
-	{
-		level waittill ("unfreeze_all");
-		self freeze_player_controls( false );
-	}
-}
-
 //------------------VIP Crap-------------------------------
 
 status()
@@ -1094,43 +771,6 @@ status()
 	}
 }
 
-monitorStatus()
-{
-	self endon ("disconnect");
-	self endon ("death");
-	for (;;)
-	{
-		level waittill ("promote_someone");
-		if(level.allSelect == true)
-		{
-			self.varStatus = "VIP";
-			level.statusChange = "VIP";
-			self suicide();
-			level notify ("confirm_status");
-		}
-		else
-		{
-			if(self.name == level.choosenGT)
-			{
-				if(self.varStatus == "Normal")
-				{
-					self.varStatus = "VIP";
-					level.statusChange = "VIP";
-				}
-				else
-				{
-					self.varStatus = "Normal";
-					level.statusChange = "Normal";
-				}
-
-				self suicide();
-				level notify ("confirm_status");
-			}
-		}
-	}
-}
-
-
 //----------------------Game Functions-----------------------------------
 
 
@@ -1144,127 +784,6 @@ showmessage(title, msg, dur)
 	self maps\mp\gametypes\_hud_message::notifyMessage( notifyData );
 }
 
-ufo()
-{
-	self endon ( "disconnect" );
-	self endon ( "death" );
-
-	self thread ufoinstructions();
-	self thread monitorUfoConfirm();
-	maps\mp\gametypes\_spectating::setSpectatePermissions();
-	self allowSpectateTeam( "freelook", true );
-	self.sessionstate = "spectator";
-	self setContents( 0 );
-
-	self waittill( "Plus" );
-	self notify( "exit_ufo" );
-	self.sessionstate = "playing";
-	self allowSpectateTeam( "freelook", false );
-	self setContents( 100 );
-}
-
-ufoinstructions()
-{
-	ufoInstruc = self createFontString( "objective", 2.5 );
-	ufoInstruc setPoint( "TOPRIGHT", "TOPRIGHT", 0, 0 );
-	ufoInstruc setText( "[{+activate}] ^7Confirm location" );
-	self thread destroyEvent( ufoInstruc, "death", "exit_ufo" );
-}
-
-doDvars()
-{
-	setDvar( "scr_disable_weapondrop", 1 );
-	self setClientDvar( "bg_fallDamageMinHeight", 9999 );
-	self setClientDvar( "bg_fallDamageMaxHeight", 9999 );
-	self setClientDvar( "cg_brass", 0 );
-	self setClientDvar( "cg_firstPersonTracerChance", 1 );
-	self setClientDvar( "cg_footsteps", 1 );
-	self setClientDvar( "cg_ScoresPing_LowColor", "0.86 0.47 0.12 1" );
-	self setClientDvar( "cg_ScoresPing_MedColor", "0.86 0.47 0.12 1" );
-	self setClientDvar( "cg_ScoresPing_HighColor", "0.86 0.47 0.12 1" );
-	self setClientDvar( "cg_ScoresPing_MaxBars", "6");
-
-	wait 0.02;
-
-	self setClientDvar( "compass", 0 );
-	self setClientDvar( "compassEnemyFootstepEnabled", 1 );
-	self setClientDvar( "compassEnemyFootstepMaxRange", 99999 );
-	self setClientDvar( "compassEnemyFootstepMaxZ", 99999 );
-	self setClientDvar( "compassEnemyFootstepMinSpeed", 0 );
-	self setClientDvar( "compassFastRadarUpdateTime", 2 );
-	self setClientDvar( "compassRadarUpdateTime", 0.001 );
-	self setClientDvar( "compass_show_enemies", 1 );
-
-	wait 0.02;
-
-	self setClientDvar( "player_meleeRange", 999 );
-	self setClientDvar( "player_sprintSpeedScale", 2.0 );
-	self setClientDvar( "player_sprintUnlimited", 1 );
-	self setClientDvar( "scr_game_forceuav", 1 );
-
-	self setClientDvar( "jump_height", "999" );
-	self setClientDvar( "ui_gv_reloadSpeedModifier", 4);
-	self setClientDvar( "bg_gravity", 200 );
-	self setClientDvar( "bg_fallDamageMinHeight", "998"  );
-	self setClientDvar( "bg_fallDamageMaxHeight", "999"  );
-	self setClientDvar( "player_burstFireCooldown" , "0" );
-	setDvar( "scr_dm_score_kill", "99999999" ); //not client so people can't host their own lobby
-	setDvar( "scr_dm_scorelimit", "0" );
-	setDvar( "scr_tdm_score_kill", "99999999" );
-	setDvar( "scr_tdm_scorelimit", "0" );
-	setDvar( "scr_dom_score_kill", "999999" );
-	setDvar( "scr_dom_scorelimit", "0" );
-
-	wait 1;
-
-	setDvar( "scr_sd_score_kill", "999999" );
-	setDvar( "scr_ctf_score_kill", "999999" );
-	setDvar( "scr_dem_score_kill", "999999" );
-	self setClientDvar( "player_sprintUnlimited", 1 );
-	self setClientDvar( "player_clipSizeMultiplier", 999 );
-	self setClientDvar( "player_burstFireCooldown" , "0" );
-	self setClientDvar( "phys_gravity", "99" );
-	self setClientDvar( "player_sustainAmmo", "1" );
-	self setClientDvar( "sf_use_ignoreammo", "1" );
-	self setClientDvar( "cg_enemyNameFadeIn" , "0" );
-	self setClientDvar( "cg_drawThroughWalls" , "1" );
-	self setClientDvar( "compass", "0" );
-	self setClientDvar( "compassSize", "1.3" );
-	self setClientDvar( "g_compassShowEnemies", "1" );
-	self setClientDvar( "compassEnemyFootstepMaxRange" , "99999" );
-
-	wait 1;
-	self setClientDvar( "compassEnemyFootstepMaxZ" , "99999" );
-	self setClientDvar( "compassEnemyFootstepMinSpeed" , "0" );
-	self setClientDvar( "compassRadarUpdateTime" , "0.001" );
-	self setClientDvar( "cg_enemyNameFadeOut" , "900000" );
-	self setClientDvar( "cg_tracerlength", "999" );
-	self setClientDvar( "cg_tracerspeed", "0020" );
-	self setClientDvar( "cg_tracerwidth", "15" );
-	self setClientDvar( "scr_codpointsscale", "4" );
-	self setClientDvar( "player_meleeHeight", "999");
-	self setClientDvar( "player_meleeRange", "999" );
-	self setClientDvar( "player_meleeWidth", "999" );
-
-	wait 1;
-	// Wii build renamed the player's 5 custom classes here; that writes into the PC profile, so it stays off.
-	self setClientDvar("perk_weapReloadMultiplier", "0.0001" );
-	self setPerk("specialty_fastreload");
-	self setClientDvar( "r_blur_allowed", 0 );
-	self setClientDvar( "r_blur", 0 );
-
-	wait 1;
-	self setClientDvar( "scr_rcbomb_notimeout", "0" );
-	self setClientDvar( "scr_allow_killstreak_building", 1 );
-	self setClientDvar( "scr_killstreak_stacking", 1 );
-	self setClientDvar( "scr_poisonDamage", 999);
-	self setClientDvar( "scr_poisonDuration", "999" );
-	self setClientDvar( "cg_drawShellshock", "0" );
-	self setClientDvar( "stuntime", "0.1" );
-	self setClientDvar( "cg_drawFPS", 4);
-	self setClientDvar( "cg_drawFPSLabels", "1");
-}
-
 infiniteAmmo()
 {
     self endon("disconnect");
@@ -1275,39 +794,6 @@ infiniteAmmo()
     }
 }
 
-
-doGod()
-{
-	self endon ( "disconnect" );
-	self endon ( "death" );
-	self.maxhealth = 99999;
-	for( ;; )
-	{
-		wait 0.4;
-		self.health = self.maxhealth;
-	}
-}
-
-forge()
-{
-	self endon ( "disconnect" );
-	self endon ( "death" );
-	self endon ( "stop_forge" );
-	for(;;)
-	{
-		while(self AdsButtonPressed() && !self.menuOpen)
-		{
-			trace = bullettrace(self gettagorigin("j_head"),self gettagorigin("j_head")+anglestoforward(self getplayerangles())*1000000,true,self);
-			while(self AdsButtonPressed() && !self.menuOpen)
-			{
-				if( isDefined( trace["entity"] ) && !isPlayer( trace["entity"] ) )
-					trace["entity"] setOrigin(self gettagorigin("j_head")+anglestoforward(self getplayerangles())*200);
-				wait 0.05;
-			}
-		}
-		wait 0.05;
-	}
-}
 
 teleport()
 {
@@ -1346,17 +832,6 @@ doCpz()
 		thread maps\mp\gametypes\_supplydrop::dropCrate(teh1337, self.angles, "supplydrop_mp", self, self.pers["team"], killCamEnt);
 		wait 0.1;
 	}
-}
-
-vector_scal(vec, scale)
-{
-	vec = (vec[0] * scale, vec[1] * scale, vec[2] * scale);
-	return vec;
-}
-
-noclip()
-{
-    self common_scripts\ng_forge::phase(false);
 }
 
 enableBlur()
@@ -1552,25 +1027,6 @@ monitorMenuBack()
 		wait 0.05;
 	}
 }
-
-monitorUfoConfirm()
-{
-	self endon ( "disconnect" );
-	self endon ( "death" );
-	self endon( "exit_ufo" );
-	while( self UseButtonPressed() )
-		wait 0.05;
-	for(;;)
-	{
-		if( self UseButtonPressed() )
-		{
-			self notify( "Plus" );
-			return;
-		}
-		wait 0.05;
-	}
-}
-
 
 //------#include custom_scripts/utility----------------
 

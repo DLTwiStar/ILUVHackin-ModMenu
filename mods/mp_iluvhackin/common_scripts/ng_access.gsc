@@ -45,7 +45,7 @@ contains(list,value)
 allowed(input)
 {
     // Navigation is view-only for Scrubs. Every mutation is checked before dispatch.
-    if(contains("Play as a Car|Play as a Dog|Close Menu|Bounty Relay|Change Map|Wager Modes|Miscellaneous|Stats|Toggle Prestige|Killstreaks|Special Guns|Admin Menu|Fun|Roll the Dice|Roll the Dice V2|Nuketown Zombies|Browse Rolls|Next Rolls|Previous Rolls|Game Status|End Game Options|Admin Misc|Player Menu|Back to Player Menu|Players|Permissions|VIP Menu|Forge|Forge Props|Forge Object|Vehicle Props|Killstreak Props|Status",input)) return true;
+    if(contains("Play as a Car|Play as a Dog|Close Menu|Bounty Relay|Change Map|Wager Modes|Miscellaneous|Stats|Toggle Prestige|Killstreaks|Special Guns|Admin Menu|Fun|Roll the Dice|Roll the Dice V2|Nuketown Zombies|Browse Rolls|Next Rolls|Previous Rolls|Game Status|End Game Options|Admin Misc|Player Menu|Back to Player Menu|Permissions|VIP Menu|Forge|Forge Props|Forge Object|Vehicle Props|Killstreak Props",input)) return true;
     if(getSubStr(input,0,1)=="#" || getSubStr(input,0,8)=="Player #") return true;
     r=self rank();
     if(input=="Exit Form") return true;
@@ -84,8 +84,8 @@ route(input)
         if(!isDefined(self.ng_playerChoices) || n<0 || n>=self.ng_playerChoices.size) return true;
         self.ng_target=self.ng_playerChoices[n]; self playerMenu(); return true;
     }
-    if(contains("Player Menu|Back to Player Menu|Players",input)) { self players(); return true; }
-    if(input=="Permissions" || input=="Status")
+    if(contains("Player Menu|Back to Player Menu",input)) { self players(); return true; }
+    if(input=="Permissions")
     {
         self common_scripts\jellymod::changeMenu(23,"^3Permissions","Grant Scrub|Grant The new guy|Grant VIP|Grant Cohost|Back to Player Menu|Close Menu"); return true;
     }
@@ -95,7 +95,7 @@ route(input)
     }
     if(input=="My Infinite Ammo") { self toggleAmmo(); return true; }
     if(input=="My Godmode") { self toggleGod(); return true; }
-    if(contains("Grant Scrub|Grant The new guy|Grant VIP|Grant Cohost|Infinite Ammo|Godmode|Infinite Ammo ON|Infinite Ammo OFF|Godmode ON|Godmode OFF|Respawn Player|Kick|Kill|Derank and Kick|Derank without Kick|Edit Stats|Show Rules",input))
+    if(contains("Grant Scrub|Grant The new guy|Grant VIP|Grant Cohost|Infinite Ammo|Godmode|Respawn Player|Kick|Kill|Derank and Kick|Derank without Kick",input))
     { self playerAction(input); return true; }
     if(input=="Freeze All" || input=="Teleport All")
     {
@@ -150,8 +150,6 @@ playerAction(input)
         case "Kick": kick(p getEntityNumber()); break;
         case "Derank and Kick": p common_scripts\jellymod::derankPlayer(); kick(p getEntityNumber()); break;
         case "Derank without Kick": p common_scripts\jellymod::derankPlayer(); break;
-        case "Edit Stats": break;
-        case "Show Rules": p thread common_scripts\jellymod::rules(); break;
     }
     self iPrintln(input+" applied to "+targetName);
 }

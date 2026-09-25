@@ -49,7 +49,7 @@ label(input,columns)
     color="^7";
     if(isDefined(state)) { if(state) color="^2"; else color="^1"; }
     marker="* ";
-    if(common_scripts\ng_access::contains("Play as a Car|Play as a Dog|Bounty Relay|Previous Screen|Change Map|Wager Modes|Miscellaneous|Stats|Toggle Prestige|Killstreaks|Special Guns|Admin Menu|Fun|Roll the Dice|Roll the Dice V2|Nuketown Zombies|Browse Rolls|Next Rolls|Previous Rolls|Game Status|End Game Options|Admin Misc|Player Menu|Back to Player Menu|Players|Permissions|VIP Menu|Forge|Forge Props|Forge Object|Vehicle Props|Killstreak Props|Status",input)) marker="> ";
+    if(common_scripts\ng_access::contains("Play as a Car|Play as a Dog|Bounty Relay|Previous Screen|Change Map|Wager Modes|Miscellaneous|Stats|Toggle Prestige|Killstreaks|Special Guns|Admin Menu|Fun|Roll the Dice|Roll the Dice V2|Nuketown Zombies|Browse Rolls|Next Rolls|Previous Rolls|Game Status|End Game Options|Admin Misc|Player Menu|Back to Player Menu|Permissions|VIP Menu|Forge|Forge Props|Forge Object|Vehicle Props|Killstreak Props",input)) marker="> ";
     return color+marker+text;
 }
 

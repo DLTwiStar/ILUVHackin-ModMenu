@@ -84,8 +84,6 @@ init()
     precacheItem("uzi_silencer_mp");
     precacheItem("wa2000_mp");
     level.rollCount=81;
-    level.testMode=0;
-    level.matchHasntStarted=0;
     precacheModel("test_sphere_silver");
     precacheModel("projectile_hellfire_missile");
     precacheModel("tag_origin");
@@ -106,15 +104,6 @@ onPlayerConnected()
     }
 }
 
-
-doIntro()
-{
-	self waittill( "spawned_player" );
-	while(level.matchHasntStarted)
-		wait 0.1;
-	wait 0.8;
-	self thread scrollFadeText( 4, "CENTER", "CENTER", 0, 0, "", "ROLL THE DICE" );
-}
 
 onPlayerSpawned()
 {
@@ -145,28 +134,6 @@ startLife()
     self iPrintln("^3Roll the Dice V2 ^7- original RTD by JellyInjector");
 }
 
-
-waitToOpenMenu()
-{
-	self.inMenu = 0;
-	for(;;)
-	{
-		while(!self useButtonPressed() || !self meleeButtonPressed())
-			wait 0.1;
-		wait 1;
-		if(self useButtonPressed() && self meleeButtonPressed() && !self.inMenu)
-			self thread kickMenu();
-	}
-}
-
-classNames()
-{
-	self setClientDvar( "customclass1", "^2Welcome to Skittles" );
-	self setClientDvar( "customclass2", "Roll the Dice lobby." );
-	self setClientDvar( "customclass3", "^2Please don't talk a lot" );
-	self setClientDvar( "customclass4", "and don't be annoying." );
-	self setClientDvar( "customclass5", "^2Have Fun!" );
-}
 
 deathReset()
 {
@@ -983,13 +950,6 @@ deleteGun(gun,obj)
 		obj delete();
 }
 
-deathCP(cp)
-{
-	self waittill_any("death","disconnect");
-	if(isDefined(cp))
-		cp delete();
-}
-
 isMoving()
 {
 	if(self getVelocity() == (0,0,0))
@@ -1243,15 +1203,6 @@ aim()
 	return location;
 }
 
-credit()
-{
-for(;;)
-{
-wait 45;
-iPrintln("You are playing ^3Roll the Dice^7, made by ^2JellyInjector");
-}
-}
-
 doTimer( time )
 {
 	self endon("death");
@@ -1392,110 +1343,12 @@ getRandomWep(weaponNotToGet)
 	return weps[wep];
 }
 
-kickMenu()
-{
-	self freeze_player_controls(true);
-	title = createText( "objective", 1.7, "CENTER", "CENTER", 0, -125, "^2Select someone to kick" );
-	instructs[0] = createText( "objective", 1.5, "LEFT", "CENTER", -109, -100+(level.players.size*25), "[{+speed_throw}] Up\n[{+attack}] Down" );
-	instructs[1] = createText( "objective", 1.5, "RIGHT", "CENTER", 109, -100+(level.players.size*25), "Kick [{+activate}]" );
-	instructs[2] = createText( "objective", 1.5, "RIGHT", "CENTER", 109, -83+(level.players.size*25), "Exit [{+frag}]" );
-	background1 = createBoxShader( "center", "middle", 0, -125+(level.players.size*12.5), (0,0.4,0), 220, 25+(level.players.size*25), 1, -5 );
-	background2 = createBoxShader( "center", "middle", 0, -125, (0.4,0.4,0.4), 214, 20, 1, -4 );
-	playerText = [];
-	for(i=0;i<level.players.size;i++)
-	{
-		playerText[i] = createText( "objective", 1.5, "LEFT", "CENTER", -102, -101+(i*25), level.players[i].name );
-		playerText[i].background = createBoxShader( "center", "middle", 0, -100+(i*25), (1,1,1), 214, 20, 0.4, -3 );
-		playerText[i].player = level.players[i];
-	}
-	playerText[0].background.alpha = 1;
-	playerText[0].background.color = (0,0,0);
-	self.inMenu = 1;
-	curPlayer = 0;
-	wait 0.3;
-	while(self.inMenu)
-	{
-		while(!self useButtonPressed() && !self attackButtonPressed() && !self adsButtonPressed() && !self fragButtonPressed())
-			wait 0.01;
-		if(self useButtonPressed())
-			if(level.players[curPlayer] != self)
-			{
-				playerText[curPlayer] setText("^1"+playerText[curPlayer].player.name);
-				kick(playerText[curPlayer].player GetEntityNumber());
-			}
-		if(self fragButtonPressed())
-			self.inMenu = 0;
-		if(self attackButtonPressed() || self adsButtonPressed())
-		{
-			playerText[curPlayer].background.alpha = 0.4;
-			playerText[curPlayer].background.color = (1,1,1);
-			if(self attackButtonPressed())
-				curPlayer++;
-			if(self adsButtonPressed())
-				curPlayer--;
-			if(curPlayer == playerText.size)
-				curPlayer = 0;
-			if(curPlayer < 0)
-				curPlayer = playerText.size-1;
-			playerText[curPlayer].background.alpha = 1;
-			playerText[curPlayer].background.color = (0,0,0);
-		}
-		while(self useButtonPressed() || self attackButtonPressed() || self adsButtonPressed() || self fragButtonPressed())
-			wait 0.05;
-	}
-	for(i=0;i<playerText.size;i++)
-	{
-		playerText[i] destroy();
-		playerText[i].background destroy();
-	}
-	background1 destroy();
-	background2 destroy();
-	title destroy();
-	for(i=0;i<4;i++)
-		instructs[i] destroy();
-	self freeze_player_controls(false);
-}
-
 createText( font, fontscale, pos1, pos2, x, y, text )
 {
 	txt = createFontString(font,fontscale);
 	txt setPoint(pos1,pos2,x,y);
 	txt setText(text);
 	return txt;
-}
-
-scrollFadeText( fontscale, pos1, pos2, x, y, color, text )
-{
-	message = [];
-	txt = GetSubStr(text,0);
-	for(i=0;i<txt.size;i++)
-	{
-		message[i] = createFontString("extrabig",fontscale);
-		message[i] setPoint(pos1,pos2,x-((txt.size/2)*(fontscale*6))+((fontscale*6)*i),y);
-		message[i] setText(color+txt[i]);
-		message[i].alpha = 0;
-	}
-	for(i=0;i<message.size;i++)
-	{
-		message[i] doFade(0.3,1);
-		wait 0.3;
-		message[i] doFade(0.5,0);
-	}
-	wait 0.7;
-	for(i=0;i<message.size;i++)
-		message[i] doFade(1,1);
-	wait 2;
-	for(i=0;i<message.size;i++)
-		message[i] doFade(2,0);
-	wait 2;
-	for(i=0;i<message.size;i++)
-		message[i] destroy();
-}
-
-doFade( time, alpha )
-{
-	self FadeOverTime(time);
-	self.alpha = alpha;
 }
 
 doSpy()

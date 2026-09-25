@@ -13,13 +13,15 @@ Previous mod folders are preserved. Select mp_iluvhackin to use this release.
 
 ## Steam or both installations
 
-Open PowerShell in the extracted folder and run the following, replacing the example path with the folder containing your BlackOpsMP.exe:
+Run **Install-Both.cmd**. It finds BO1 automatically using Plutonium's configured game folder, Steam's registry entries and every Steam library, and a scan of common game folders on all drives. If BO1 still can't be found, it asks you to paste or drag in the folder containing BlackOpsMP.exe.
+
+To choose the folder yourself, open PowerShell in the extracted folder and run:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 -Target Both -Bo1Root "D:\SteamLibrary\steamapps\common\Call of Duty Black Ops"
 ```
 
-Use -Target Steam for Steam only. Install-Both.cmd automatically checks the original F: installation paths; use the command above for other locations.
+Use -Target Steam for Steam only.
 
 ## Menu controls
 
